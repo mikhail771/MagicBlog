@@ -14,6 +14,8 @@ class Post extends Model
 
     const IS_DRAFT = 0;
     const IS_PUBLIC = 1;
+    const IS_FEATURED = 1;
+    const IS_NOT_FEATURED = 0;
 
     protected $fillable = ['title','content', 'date', 'description'];
 
@@ -119,13 +121,13 @@ class Post extends Model
 
     public function setDraft()
     {
-        $this->status = Post::IS_DRAFT;
+        $this->status = self::IS_DRAFT;
         $this->save();
     }
 
     public function setPublic()
     {
-        $this->status = Post::IS_PUBLIC;
+        $this->status = self::IS_PUBLIC;
         $this->save();
     }
 
@@ -141,13 +143,13 @@ class Post extends Model
 
     public function setFeatured()
     {
-        $this->is_featured = 1;
+        $this->is_featured = self::IS_FEATURED;
         $this->save();
     }
 
     public function setStandart()
     {
-        $this->is_featured = 0;
+        $this->is_featured = self::IS_NOT_FEATURED;
         $this->save();
     }
 

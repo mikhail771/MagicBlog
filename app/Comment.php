@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
+    const STATUS_ALLOW = 1;
+    const STATUS_DISALLOW = 0;
+
     public function post()
     {
         return $this->belongsTo(Post::class);
@@ -18,19 +21,19 @@ class Comment extends Model
 
     public function allow()
     {
-        $this->status = 1;
+        $this->status = self::STATUS_ALLOW;
         $this->save();
     }
 
     public function disAllow()
     {
-        $this->status = 0;
+        $this->status = self::STATUS_DISALLOW;
         $this->save();
     }
 
     public function toggleStatus()
     {
-        if ($this->status == 0){
+        if ($this->status == self::STATUS_DISALLOW){
             return $this->allow();
         }
 

@@ -12,6 +12,8 @@ class User extends Authenticatable
 
     const IS_BANNED = 1;
     const IS_ACTIVE = 0;
+    const IS_ADMIN = 1;
+    const IS_NOT_ADMIN = 0;
 
     /**
      * The attributes that are mass assignable.
@@ -102,13 +104,13 @@ class User extends Authenticatable
 
     public function makeAdmin()
     {
-        $this->is_admin = 1;
+        $this->is_admin = self::IS_ADMIN;
         $this->save();
     }
 
     public function makeNormal()
     {
-        $this->is_admin = 0;
+        $this->is_admin = self::IS_NOT_ADMIN;
         $this->save();
     }
 
