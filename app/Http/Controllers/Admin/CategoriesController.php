@@ -11,6 +11,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::all();
+
         return view('admin.categories.index', [
             'categories' => $categories
         ]);
@@ -33,20 +34,22 @@ class CategoriesController extends Controller
         $this->validate($request, [
             'title' => 'required|unique:categories'
         ]);
-
         Category::create($request->all());
+
         return redirect()->route('categories.index');
     }
 
     public function edit($id)
     {
         $category = Category::find($id);
+
         return view('admin.categories.edit', ['category' => $category]);
     }
 
     public function destroy($id)
     {
         Category::find($id)->delete();
+
         return redirect()->route('categories.index');
     }
 }

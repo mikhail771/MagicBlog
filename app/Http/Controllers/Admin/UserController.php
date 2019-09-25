@@ -17,6 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+
         return view('admin.users/index', [
             'users' => $users
         ]);
@@ -46,7 +47,6 @@ class UserController extends Controller
             'password' => 'required',
             'avatar' => 'nullable|image'
         ]);
-
         $user = User::add($request->all());
         $user->uploadAvatar($request->file('avatar'));
 
@@ -62,6 +62,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+
         return view('admin.users.edit', compact('user'));
     }
 
@@ -75,7 +76,6 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-
         $this->validate($request, [
             'name'  =>  'required',
             'email' =>  [
@@ -85,7 +85,6 @@ class UserController extends Controller
             ],
             'avatar'    =>  'nullable|image'
         ]);
-
         $user->edit($request->all());
         $user->generatePassword($request->get('password'));
         $user->uploadAvatar($request->file('avatar'));

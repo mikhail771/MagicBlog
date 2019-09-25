@@ -55,7 +55,7 @@ class Post extends Model
     {
         $post = new static;
         $post->fill($fields);
-        $post->user_id = 1;
+        $post->user_id = Auth::user()->id;
         $post->save();
 
         return $post;
@@ -75,7 +75,7 @@ class Post extends Model
 
     public function removeImage()
     {
-        if($this->image != null)
+        if ($this->image != null)
         {
             Storage::delete('uploads/' . $this->image);
         }
@@ -83,7 +83,7 @@ class Post extends Model
 
     public function uploadImage($image)
     {
-        if($image == null) { return; }
+        if ($image == null) { return; }
 
         $this->removeImage();
         $filename = str_random(10) . '.' . $image->extension();
@@ -94,7 +94,7 @@ class Post extends Model
 
     public function getImage()
     {
-        if($this->image == null)
+        if ($this->image == null)
         {
             return '/img/no-image.png';
         }
@@ -105,14 +105,14 @@ class Post extends Model
 
     public function setCategory($id)
     {
-        if($id == null) {return;}
+        if ($id == null) {return;}
         $this->category_id = $id;
         $this->save();
     }
 
     public function setTags($ids)
     {
-        if($ids == null){return;}
+        if ($ids == null){return;}
 
         $this->tags()->sync($ids);
     }
@@ -131,7 +131,7 @@ class Post extends Model
 
     public function toggleStatus($value)
     {
-        if($value == null)
+        if ($value == null)
         {
             return $this->setDraft();
         }
@@ -153,7 +153,7 @@ class Post extends Model
 
     public function toggleFeatured($value)
     {
-        if($value == null)
+        if ($value == null)
         {
             return $this->setStandart();
         }
@@ -217,6 +217,7 @@ class Post extends Model
     public function getNext()
     {
         $postID = $this->hasNext();
+
         return self::find($postID);
     }
 

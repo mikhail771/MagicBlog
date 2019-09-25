@@ -53,13 +53,12 @@ class User extends Authenticatable
     public function edit($fields)
     {
         $this->fill($fields); //name,email
-
         $this->save();
     }
 
     public function generatePassword($password)
     {
-        if($password != null)
+        if ($password != null)
         {
             $this->password = bcrypt($password);
             $this->save();
@@ -74,10 +73,9 @@ class User extends Authenticatable
 
     public function uploadAvatar($image)
     {
-        if($image == null) { return; }
+        if ($image == null) { return; }
 
         $this->removeAvatar();
-
         $filename = str_random(10) . '.' . $image->extension();
         $image->storeAs('uploads', $filename);
         $this->avatar = $filename;
@@ -86,7 +84,7 @@ class User extends Authenticatable
 
     public function removeAvatar()
     {
-        if($this->avatar != null)
+        if ($this->avatar != null)
         {
             Storage::delete('uploads/' . $this->avatar);
         }
@@ -94,7 +92,7 @@ class User extends Authenticatable
 
     public function getImage()
     {
-        if($this->avatar == null)
+        if ($this->avatar == null)
         {
             return '/img/no-avatar.jpeg';
         }
@@ -116,7 +114,7 @@ class User extends Authenticatable
 
     public function toggleAdmin($value)
     {
-        if($value == null)
+        if ($value == null)
         {
             return $this->makeNormal();
         }
@@ -138,12 +136,11 @@ class User extends Authenticatable
 
     public function toggleBan($value)
     {
-        if($value == null)
+        if ($value == null)
         {
             return $this->unban();
         }
 
         return $this->ban();
     }
-
 }
