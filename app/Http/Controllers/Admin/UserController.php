@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\User\StoreUser;
+use App\Http\Requests\User\UpdateUser;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -39,14 +41,8 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'avatar' => 'nullable|image'
-        ]);
         $user = User::add($request->all());
         $user->uploadAvatar($request->file('avatar'));
 
@@ -73,18 +69,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUser $request, $id)
     {
         $user = User::find($id);
-        $this->validate($request, [
-            'name'  =>  'required',
-            'email' =>  [
-                'required',
-                'email',
-                Rule::unique('users')->ignore($user->id),
-            ],
-            'avatar'    =>  'nullable|image'
-        ]);
         $user->edit($request->all());
         $user->generatePassword($request->get('password'));
         $user->uploadAvatar($request->file('avatar'));

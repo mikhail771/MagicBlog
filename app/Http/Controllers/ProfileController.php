@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Profile\StoreProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -15,18 +16,8 @@ class ProfileController extends Controller
         return view('pages.profiler', ['user' => $user]);
     }
 
-    public function store(Request $request)
+    public function store(StoreProfile $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' =>  [
-            'required',
-            'email',
-            Rule::unique('users')->ignore(Auth::user()->id),
-    ],
-            'avatar' => 'nullable|image'
-        ]);
-
         $user = Auth::user();
         $user->edit($request->all());
         $user->generatePassword($request->get('password'));

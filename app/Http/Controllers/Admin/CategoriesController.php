@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
+use App\Http\Requests\Category\StoreCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,11 +30,8 @@ class CategoriesController extends Controller
         return redirect()->route('categories.index');
     }
 
-    public function store(Request $request)
+    public function store(StoreCategory $request)
     {
-        $this->validate($request, [
-            'title' => 'required|unique:categories'
-        ]);
         Category::create($request->all());
 
         return redirect()->route('categories.index');

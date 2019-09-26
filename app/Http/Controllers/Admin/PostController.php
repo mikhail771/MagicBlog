@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
+use App\Http\Requests\Post\StorePost;
+use App\Http\Requests\Post\UpdatePost;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
@@ -41,15 +43,8 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
-        $this->validate($request, [
-            'title' =>'required',
-            'content'   =>  'required',
-            'date'  =>  'required',
-            'image' =>  'nullable|image'
-        ]);
-
         $post = Post::add($request->all());
         $post->uploadImage($request->file('image'));
         $post->setCategory($request->get('category_id'));
@@ -88,15 +83,8 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePost $request, $id)
     {
-        $this->validate($request, [
-            'title' =>'required',
-            'content'   =>  'required',
-            'date'  =>  'required',
-            'image' =>  'nullable|image'
-        ]);
-
         $post = Post::find($id);
         $post->edit($request->all());
         $post->uploadImage($request->file('image'));

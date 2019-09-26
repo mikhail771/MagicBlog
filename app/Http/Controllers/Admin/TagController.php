@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
+use App\Http\Requests\Tag\StoreTag;
 use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -38,11 +39,8 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTag $request)
     {
-        $this->validate($request,[
-            'title' => 'required|unique:tags'
-        ]);
         Tag::create($request->all());
 
         return redirect()->route('tags.index');

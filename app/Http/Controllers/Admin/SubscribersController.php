@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Subscriber\StoreSubscriber;
 use App\Subscription;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,11 +21,8 @@ class SubscribersController extends Controller
         return view('admin.subs.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreSubscriber $request)
     {
-        $this->validate($request, [
-            'email' => 'required|email|unique:subscriptions'
-        ]);
         Subscription::add($request->get('email'));
 
         return redirect()->route('subscribers.index');

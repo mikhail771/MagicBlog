@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Subscriber\StoreSubscriber;
 use App\Mail\SubscribeEmail;
 use App\Subscription;
 use Illuminate\Http\Request;
@@ -9,12 +10,8 @@ use Illuminate\Support\Facades\Mail;
 
 class SubscribeController extends Controller
 {
-    public function subscribe(Request $request)
+    public function subscribe(StoreSubscriber $request)
     {
-        $this->validate($request, [
-            'email' => 'required|email|unique:subscriptions'
-        ]);
-
         $subs = Subscription::add($request->get('email'));
         $subs->generateToken();
         Mail::to($subs)->send(new SubscribeEmail($subs));
