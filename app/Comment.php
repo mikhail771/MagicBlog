@@ -9,6 +9,8 @@ class Comment extends Model
     const STATUS_ALLOW = 1;
     const STATUS_DISALLOW = 0;
 
+    protected $fillable = ['text', 'post_id', 'user_id'];
+
     public function post()
     {
         return $this->belongsTo(Post::class);

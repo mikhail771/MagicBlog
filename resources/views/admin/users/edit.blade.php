@@ -19,6 +19,7 @@
             'method'	=>	'put',
             'files'	=>	true
         ])}}
+            @csrf
         <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">

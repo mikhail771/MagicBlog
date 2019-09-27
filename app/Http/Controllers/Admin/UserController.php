@@ -44,8 +44,10 @@ class UserController extends Controller
     public function store(StoreUser $request)
     {
         $user = User::add($request->all());
-        $user->uploadAvatar($request->file('avatar'));
 
+        if ($request->has('avatar')) {
+            $user->uploadAvatar($request->file('avatar'));
+        }
         return redirect()->route('users.index');
     }
 
@@ -71,11 +73,13 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, $id)
     {
+
         $user = User::find($id);
         $user->edit($request->all());
         $user->generatePassword($request->get('password'));
-        $user->uploadAvatar($request->file('avatar'));
-
+        if ($request->file('avatar')) {
+            $user->uploadAvatar($request->file('avatar'));
+        }
         return redirect()->route('users.index');
     }
 

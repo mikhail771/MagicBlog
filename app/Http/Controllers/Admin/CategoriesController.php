@@ -37,9 +37,9 @@ class CategoriesController extends Controller
         return redirect()->route('categories.index');
     }
 
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $category = Category::find($id);
+        $category = Category::find($category);
 
         return view('admin.categories.edit', ['category' => $category]);
     }

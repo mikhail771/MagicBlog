@@ -14,6 +14,8 @@ class User extends Authenticatable
     const IS_ACTIVE = 0;
     const IS_ADMIN = 1;
     const IS_NOT_ADMIN = 0;
+    const UPLOADS_PACKAGE = 'uploads/';
+    const NO_AVATAR = '/img/no-avatar.jpeg';
 
     /**
      * The attributes that are mass assignable.
@@ -43,7 +45,7 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    public static function add($fields)
+    public static function add(array $fields)
     {
         $user = new static;
         $user->fill($fields);
@@ -54,11 +56,11 @@ class User extends Authenticatable
 
     public function edit($fields)
     {
-        $this->fill($fields); //name,email
+        $this->fill($fields);
         $this->save();
     }
 
-    public function generatePassword($password)
+    public function generatePassword(string $password)
     {
         if ($password != null)
         {
@@ -75,11 +77,11 @@ class User extends Authenticatable
 
     public function uploadAvatar($image)
     {
-        if ($image == null) { return; }
+//        if ($image == null) { return; }
 
         $this->removeAvatar();
         $filename = str_random(10) . '.' . $image->extension();
-        $image->storeAs('uploads', $filename);
+        $image->storeAs(self::UPLOADS_PACKAGE, $filename);
         $this->avatar = $filename;
         $this->save();
     }
@@ -88,7 +90,7 @@ class User extends Authenticatable
     {
         if ($this->avatar != null)
         {
-            Storage::delete('uploads/' . $this->avatar);
+            Storage::delete( self::UPLOADS_PACKAGE . $this->avatar);
         }
     }
 
@@ -96,10 +98,10 @@ class User extends Authenticatable
     {
         if ($this->avatar == null)
         {
-            return '/img/no-avatar.jpeg';
+            return self::NO_AVATAR;
         }
 
-        return '/uploads/' . $this->avatar;
+        return '/'. self::UPLOADS_PACKAGE . $this->avatar;
     }
 
     public function makeAdmin()
