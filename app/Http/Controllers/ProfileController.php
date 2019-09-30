@@ -21,7 +21,10 @@ class ProfileController extends Controller
         $user = Auth::user();
         $user->edit($request->all());
         $user->generatePassword($request->get('password'));
-        $user->uploadAvatar($request->file('avatar'));
+
+        if ($request->has('avatar')) {
+            $user->uploadAvatar($request->file('avatar'));
+        }
 
         return redirect()->back()->with('status', 'The profile was successfully updated');
     }

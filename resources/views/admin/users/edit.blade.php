@@ -34,11 +34,11 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">E-mail</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="email" placeholder="" value="{{$user->email}}">
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="email" placeholder="" value="{{ $user->email }}">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Пароль</label>
-                            <input type="password" class="form-control" id="exampleInputEmail1" name="password" placeholder="">
+                            <input type="password" class="form-control" id="exampleInputEmail1" name="password" placeholder="{{ $user->password }}">
                         </div>
                         <div class="form-group">
                             <img src="{{$user->getImage()}}" alt="" width="200" class="img-responsive">
