@@ -6,6 +6,7 @@ use App\Category;
 use App\Comment;
 use App\Post;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('admin.users._sidebar', function ($view){
             $view->with('newCommentsCount', Comment::where('status', 0)->count());
         });
+
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
+        }
     }
 
     /**
